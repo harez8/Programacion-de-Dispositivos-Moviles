@@ -63,6 +63,7 @@ void main() {
    Respuesta a "Para pensar":
    Si la lista de notas llega vacía, la función calcularPromedio fallaría porque intentaría dividir la suma entre cero (ya que no hay notas). Eso hace que el código tire un error raro o se reviente. Para manejarlo, le puse un 'if' al principio: si la lista está vacía ('notas.isEmpty'), devuelve 0.0 de una vez y así no hace la división.
   */
+  
   // -- Parte 4 --
   
   // 1. Lista de asistentes (List: permite repetidos)
@@ -146,4 +147,107 @@ void main() {
    se tiene que repetir *mientras* la clave sea incorrecta y todavía le 
    queden intentos.
   */
+  
+  // -- Parte 6 --
+  print("\n=== ESTUDIANTES Y POO ===");
+  // Creamos los estudiantes de prueba
+  Estudiante estudiante1 = Estudiante("Laura", 4, true);
+  Estudiante estudiante2 = Estudiante("Diego", 2, false); // Este no está al día
+
+  // Usamos el método de la clase
+  estudiante1.mostrarEstado();
+  estudiante2.mostrarEstado();
+  print("====================================");
+}
+
+// -- Clase para la Parte 6 --
+class Estudiante {
+  String nombre;
+  int semestre;
+  bool alDia;
+
+  // Constructor
+  Estudiante(this.nombre, this.semestre, this.alDia);
+
+  // Método para saber el estado del estudiante
+  void mostrarEstado() {
+    if (alDia) {
+      print("$nombre (Semestre $semestre) está al día con sus notas.");
+    } else {
+      print("Alerta: $nombre (Semestre $semestre) NO está al día con sus notas.");
+ /*
+   Respuesta a "Para pensar":
+   Hacerlo con una clase es mucho mejor porque toda la información de Laura o Diego 
+   queda empacada junta en un solo objeto. Si usara listas separadas por posición 
+   (una de nombres, otra de semestres), y de pronto borro un nombre pero se me 
+   olvida borrar su semestre, todo se descuadra y le terminaría poniendo los datos 
+   de alguien a otra persona. La clase evita ese enredo.
+  */
+    }
+    // -- Reto Integrador --
+  print("\n=== SISTEMA DE GESTIÓN DE TAREAS ===");
+  
+  // Creamos un conjunto de varias tareas a la vez
+  List<Tarea> misTareas = [
+    Tarea("Hacer taller de Dart", "Alta"),
+    Tarea("Subir repositorio a GitHub", "Alta"),
+    Tarea("Organizar el cuarto", "Media"),
+    Tarea("Comprar cosas para el desayuno", "Baja"),
+    Tarea("Ver un capítulo anime", "Baja")
+  ];
+
+  // Marcamos algunas como completadas
+  misTareas[0].marcarCompletada(); 
+  misTareas[3].marcarCompletada();
+
+  // Contamos cuántas tareas quedan pendientes
+  int pendientes = 0;
+  for (Tarea t in misTareas) {
+    if (!t.completada) {
+      pendientes++;
+    }
+  }
+  print("Tienes $pendientes tareas pendientes en total.\n");
+
+  // Recorremos el listado completo mostrando cada tarea de forma distinta según su prioridad
+  print("--- Listado de Tareas ---");
+  for (Tarea t in misTareas) {
+    String marca = t.completada ? "[X]" : "[ ]"; // Si está completada le ponemos una X
+    
+    if (t.prioridad == "Alta") {
+      print("$marca URGENTE: ${t.titulo}");
+    } else if (t.prioridad == "Media") {
+      print("$marca NORMAL: ${t.titulo}");
+    } else {
+      print("$marca TRANQUI: ${t.titulo}");
+    }
+  }
+  print("====================================");  
+  }
+  
+ 
+}
+
+// -- Reto Integrador --
+class Tarea {
+  String titulo;
+  String prioridad; // Puede ser: 'Alta', 'Media', 'Baja'
+  bool completada;
+
+  // Constructor (asumimos que al crear una tarea, no está completada)
+  Tarea(this.titulo, this.prioridad, {this.completada = false});
+
+  // Método para marcar una tarea como completada después de haberla creado
+  void marcarCompletada() {
+    completada = true;
+  }
+  /*
+   Respuesta a "Para pensar" (sobre la fecha límite opcional):
+   Si mañana me piden agregarle una fecha límite a cada tarea, mi diseño sí aguanta. 
+   Solo tendría que ir a la clase Tarea y meterle una variable nueva que sea 
+   'DateTime? fechaLimite' (con el signo de interrogación porque es opcional). 
+   No tendría que borrar nada de lo que ya hice, solo agregarle ese dato 
+   nuevo al molde de la clase.
+  */
+  
 }
